@@ -9,7 +9,7 @@ deploy:
   provider: releases
   api_key:
     secure: R913JnZqNRpdhHO9hdzk2iR0qdSmTs9Yk1Kew7r821OPlafuhMUIcBiVRmxHZi0iDVxCzDaPsy8F+sCd8A5ei6KViTUmMR7XPwrPidbuyCtgYHPTO6V2HqwyWxT7krjuQjSAvIo0Hu/GsBd+tH7fiepDezV78vF7THJavTeO9TCz0TPHKgtlh6FgZXi3lgipKAKY+d/9JnOo3KVI5TTURq+w3OR85WO05pJBCnHY4si+JwIEemSD1e5IhhCACn7xVrUKPxgb6cv9M7140YZxw4unNnyTnSyp8mv5XUJ/IDNLV4+C8bVNMLueOceVflUS6h+1cG8UGOpMa+F0JvKPbRNnrxUEiHHT/doXYdy3DFvSf/MJxbHdbjJdCVTLVdkhsNIjnt0npHhu6PInFL/XqTD1B35yz5crMriDT9BKsZYx+xENHWvqlxCSeFRvXl4sGsOATpcCF6Eo8n7HWhNq2QU5mEye98VXrjmp7VAmLv9MkGWMXooJRjzkYi0j8l2QqSwzXGQly47LwdG2iiPfExfYQ+xLrKewnA661J703zj/eH8vPRHyE0Elq4ecTnfDpBH+LGTi3rGopuNCHwxK3IsxD8U/tEAr4FIW0t0QGQECpHqVpKEOAyGSREQ2SJSdCHTiZUaqfGelEvXcrf4VD8F6iKziwAVzDEiVbJXzEpI=
-  file: influxdb-snmp-cisco
+  file: $TRAVIS_BUILD_DIR/influxdb-snmp-cisco
   on:
     repo: etlweather/influxdb-snmp-cisco
     tags: true
