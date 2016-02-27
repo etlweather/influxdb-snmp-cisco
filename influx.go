@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/influxdb/influxdb/client"
+	"github.com/influxdata/influxdb/client"
 )
 
 func (cfg *InfluxConfig) BP() *client.BatchPoints {
@@ -26,7 +26,8 @@ func makePoint(host string, val *pduValue, when time.Time) client.Point {
 		Measurement: val.name,
 		Tags: map[string]string{
 			"host":   host,
-			"column": val.column,
+			"interface": val.column,
+			"vlanId" : val.vlan,
 		},
 		Fields: map[string]interface{}{
 			"value": val.value,

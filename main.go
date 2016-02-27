@@ -7,12 +7,13 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
 
-	"github.com/influxdb/influxdb/client"
+	"github.com/influxdata/influxdb/client"
 	"github.com/kardianos/osext"
 	"github.com/soniah/gosnmp"
 	"gopkg.in/gcfg.v1"
@@ -33,6 +34,7 @@ type SnmpConfig struct {
 	labels    map[string]string
 	asName    map[string]string
 	asOID     map[string]string
+	vlanAsOID map[string]string
 	oids      []string
 	mib       *MibConfig
 	Influx    *InfluxConfig
@@ -191,6 +193,23 @@ func (c *SnmpConfig) Translate() {
 		if _, ok := c.asName[k]; !ok {
 			fatal("No OID found for:", k)
 		}
+	}
+
+
+	spew("Looking up vlan id for:", c.Host)
+	vlanPdus, vlanErr := client.BulkWalkAll(vlanOid)
+	if vlanErr != nil {
+		fatal("SNMP bulkwalk error", vlanErr)
+	}
+	spew("number of vlan id found", len(vlanPdus))
+	c.vlanAsOID = make(map[string]string)
+	for _, vlanPdu := range vlanPdus {
+		i := strings.LastIndex(vlanPdu.Name, ".")
+		suffix := vlanPdu.Name[i+1:]
+		name := strconv.Itoa(vlanPdu.Value.(int))
+		c.vlanAsOID[suffix] = name
+		spew("vlan id for int id:", suffix)
+		spew("Got vlan id:", name)
 	}
 
 }

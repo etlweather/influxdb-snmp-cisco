@@ -22,6 +22,7 @@ type Control struct {
 var (
 	errorSNMP int
 	nameOid   = "1.3.6.1.2.1.31.1.1.1.1" // ifName
+	vlanOid   = "1.3.6.1.4.1.9.9.68.1.2.2.1.2" //Cisco
 )
 
 const (
@@ -29,7 +30,7 @@ const (
 )
 
 type pduValue struct {
-	name, column string
+	name, column, vlan string
 	value        interface{}
 }
 
@@ -38,6 +39,7 @@ func getPoint(cfg *SnmpConfig, pdu gosnmp.SnmpPDU) *pduValue {
 	root := pdu.Name[1:i]
 	suffix := pdu.Name[i+1:]
 	col := cfg.labels[cfg.asOID[suffix]]
+	vlan := cfg.vlanAsOID[suffix]
 	name, ok := oidToName[root]
 	if verbose {
 		log.Println("ROOT:", root, "SUFFIX:", suffix, "COL:", col, "NAME:", "VALUE:", pdu.Value)
@@ -50,7 +52,7 @@ func getPoint(cfg *SnmpConfig, pdu gosnmp.SnmpPDU) *pduValue {
 		log.Println("empty col for:", cfg.asOID[suffix])
 		return nil // not an OID of interest
 	}
-	return &pduValue{name, col, pdu.Value}
+	return &pduValue{name, col, vlan, pdu.Value}
 }
 
 func bulkPoint(cfg *SnmpConfig, pdu gosnmp.SnmpPDU) *pduValue {
@@ -58,6 +60,7 @@ func bulkPoint(cfg *SnmpConfig, pdu gosnmp.SnmpPDU) *pduValue {
 	root := pdu.Name[1:i]
 	suffix := pdu.Name[i+1:]
 	col := cfg.asOID[suffix]
+	vlan := cfg.vlanAsOID[suffix]
 	name, ok := oidToName[root]
 	if verbose {
 		log.Println("ROOT:", root, "SUFFIX:", suffix, "COL:", col, "NAME:", "VALUE:", pdu.Value)
@@ -70,7 +73,7 @@ func bulkPoint(cfg *SnmpConfig, pdu gosnmp.SnmpPDU) *pduValue {
 		log.Println("empty col for:", suffix)
 		return nil // not an OID of interest
 	}
-	return &pduValue{name, col, pdu.Value}
+	return &pduValue{name, col, vlan, pdu.Value}
 }
 
 func snmpStats(snmp *gosnmp.GoSNMP, cfg *SnmpConfig) error {
