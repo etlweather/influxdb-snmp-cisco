@@ -13,3 +13,4 @@ deploy:
   on:
     repo: etlweather/influxdb-snmp-cisco
     tags: true
+  skip_cleanup: true
