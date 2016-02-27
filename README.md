@@ -1,8 +1,13 @@
 influxdb-snmp-cisco
 ==========
+[![Build Status](https://travis-ci.org/etlweather/influxdb-snmp-cisco.svg?branch=master)](https://travis-ci.org/etlweather/influxdb-snmp-cisco)
 
 A tool to collect Cisco switch ports in/out Octets counters. Data pushed to 
 InfluxDB is tagged with the *host*, *interface* name and *vlandId*.
+
+**Note:** This is a very early stage, the code is basically a quick hack on top
+of the original [influxsnmp](https://github.com/paulstuart/influxsnmp)
+project. Improvements and code clean ups are welcome!
 
 # Command line parameters
 
