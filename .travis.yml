@@ -1,0 +1,9 @@
+language: go
+
+go:
+   - 1.6
+
+notifications:
+   email:
+      on_success: change
+      on_failure: always
