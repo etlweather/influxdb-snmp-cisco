@@ -26,7 +26,7 @@ func makePoint(host string, val *pduValue, when time.Time) client.Point {
 		Measurement: val.name,
 		Tags: map[string]string{
 			"host":   host,
-			"interface": val.column,
+			"interface": strings.Replace(val.column, "/", "-", -1),
 			"vlanId" : val.vlan,
 		},
 		Fields: map[string]interface{}{
